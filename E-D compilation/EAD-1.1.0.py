@@ -28,6 +28,9 @@ translations = {
         'adjust_settings': 'Enter "1" to adjust language preference: ',
         'language_changed': 'Language preference changed successfully.',
         'invalid_operation': 'Invalid operation. Please try again.',
+        'settings_panel': "Settings Panel:",
+        'language_preference': "[1] Adjust Language Preference",
+        'enter_choice': "Enter the options you want to adjust:",
     },
     'zh': {
         'operation_prompt': "选择操作，加密(E) 或 解密(D): ",
@@ -37,8 +40,8 @@ translations = {
         'decryption_successful': "文件解密成功！",
         'terms_and_conditions': "条款和条件：",
         'terms_content': "请在使用本软件之前阅读并同意条款和条件。",
-        'terms_agree': "我同意条款和条件",
-        'terms_disagree': "我不同意",
+        'terms_agree': "我接受/Yes, I accept",
+        'terms_disagree': "我不接受/No,I don't accept",
         'language_prompt': "选择语言：English (E) 或 中文 (C): ",
         'invalid_language': "无效的语言选择。",
         'language_change_successful': "语言更改成功！",
@@ -49,6 +52,9 @@ translations = {
         'adjust_settings': '输入“1”调整语言偏好设置：',
         'language_changed': '语言偏好设置已成功更改。',
         'invalid_operation': '无效操作。请重试。',
+        'settings_panel': "设置面板：",
+        'language_preference': "[1] 调整语言首选项",
+        'enter_choice': "输入要调整的选项:",
     }
 }
 
@@ -121,40 +127,66 @@ def decrypt_file(input_file, output_file, key_file_path):
         print("Decryption failed: Invalid access code or corrupted file.")
 
 def show_terms_window():
-    # Create terms window
+    # 创建条款窗口
     terms_window = tk.Toplevel()
     terms_window.title(translations[current_language]['terms_and_conditions'])
     terms_window.geometry("500x400")
     terms_window.resizable(False, False)
     terms_window.focus_set()
-    # Center the terms window
+
+    # 居中显示条款窗口
     window_width = terms_window.winfo_reqwidth()
     window_height = terms_window.winfo_reqheight()
     position_right = int(terms_window.winfo_screenwidth() / 2 - window_width / 2)
     position_down = int(terms_window.winfo_screenheight() / 2 - window_height / 2)
     terms_window.geometry(f"+{position_right}+{position_down}")
-    # Terms content
-    terms_label = tk.Label(terms_window, text=translations[current_language]['terms_content'], pady=20)
-    terms_label.pack()
+
+    # 创建滚动条
+    scrollbar = tk.Scrollbar(terms_window)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+    # 创建文本框
+    terms_text = tk.Text(terms_window, wrap=tk.WORD, yscrollcommand=scrollbar.set)
+    terms_text.pack()
+
+    # 将用户条款添加到文本框
+    terms_text.insert(tk.END, "本软件的使用受用户许可协议的约束。软件的主体部分运行时不会与互联网有任何的连接，使用者的数据等文件都会保存在本地；但软件的一些辅助性功能可能需要网络连接。开发者在任何时候都不保证联网功能的可用性，例如高级功能的详细使用说明，某些加密算法的具体解析，或其他补充DLC。"
+                              "开发者保留修改和终止任意功能的权利。软件部分内容、技术支持请访问对应内容提供的Github页面链接。任何说明文本、软件、脚本命名若与现实世界中的地点、人物、技术或实体重名以及相似纯属巧合，并不意味着本软件有任何第三方的赞助和认可。\n"
+                              "\n要获取补充DLC以及其它附加实验性内容，可能需要提供额外费用、特殊序列号。获取这些内容可能需要互联网连接，可能不适用于所有使用者。\n"
+                              "\n版权所有  Copyright (c) 2024 Akasi梦梦没做梦 ，遵从Apache V2.0开源协议。任何说明文本、软件、脚本命名若与现实世界中的地点、人物、技术或实体重名以及相似纯属巧合，不含有任何暗示或煽动。开发者并不以任何形式支持、容忍或鼓励任何人将本软件用于非法用途\n"
+                              "\n#请严格遵从软件内的使用说明，过失操作导致的一切损失均由您自行承担\n#不建议自行更改任何依赖文件，这可能导致部分功能的失效、部分文件异常或损毁\n#出现“加载中”等字样时请不要关闭软件，可能会导致意外的错误和损失\n"
+                              "\nEnglish version:\n"
+                              "The use of the software is governed by the user license agreement. The main part of the software will not have any connection with the Internet when running, and your data and other files will be saved locally; However, some ancillary features of the software may require an Internet connection. "
+                              "The Developer does not guarantee the availability of networking features at any time, such as detailed usage instructions for advanced features, specific parsing of certain encryption algorithms, or other supplementary DLC. The Developer reserves the right to modify and discontinue any functionality. "
+                              "For some software content and technical support, please visit the Github page link provided by the corresponding content. The fact that any description text, software, scripts are named in the same name or similar to a real world place, person, technology, or entity is purely coincidental does not imply "
+                              "that the Software is sponsored or endorsed by any third party.\n"
+                              "\nAdditional DLC and other additional experimental content may be available for an additional fee and special serial numbers. Access to this content may require an Internet connection and may not be available to all users.\n"
+                              "\nCopyright (c) 2024 Akasi梦梦没做梦, compliant with the Apache V2.0 open source license. Any description text, software, or script naming that bears the same name or resemblance to a real world place, person, technology, or entity is purely coincidental and does not imply or incite anything."
+                              " The Developer does not in any way endorse, condone or encourage anyone to use the Software for illegal purposes\n"
+                              "\n# Please strictly follow the instructions in the software, all losses caused by negligence will be borne by you\n# It is not recommended to change any dependent files on your own, as this may cause some functionality to fail, some files to be abnormal or corrupted\n"
+                              "# Do not close the software when words such as ‘Loading’ appear, it may cause unexpected errors and losses")
+
+    # 配置滚动条与文本框的关联
+    scrollbar.config(command=terms_text.yview)
 
     def agree_terms():
         with open("terms_accepted.txt", 'w') as f:
             f.write('Terms Accepted')
         terms_window.destroy()
-        main()  # Continue to main function after agreeing to terms
+        main()  # 同意条款后继续执行主函数
 
     def disagree_terms():
         messagebox.showinfo("Exit", "You have not agreed to the terms and conditions. Program exiting.")
         terms_window.destroy()
         exit()
 
-    # Agree and disagree buttons
+    # 同意和不同意按钮
     agree_button = tk.Button(terms_window, text=translations[current_language]['terms_agree'], width=20, command=agree_terms)
     agree_button.pack(pady=10)
-    disagree_button = tk.Button(terms_window, text=translations[current_language]['terms_disagree'], width=20, command=disagree_terms)
+    disagree_button = tk.Button(terms_window, text=translations[current_language]['terms_disagree'], width=26, command=disagree_terms)
     disagree_button.pack(pady=5)
 
-    # Run the terms window
+    # 运行条款窗口
     terms_window.mainloop()
 
 def change_language(new_language):
@@ -228,10 +260,21 @@ def show_main_menu():
         decrypt_file(input_file, output_file, key_file)  # 正确调用decrypt_file函数
         print(translations[current_language]['decryption_successful'])
     elif operation_choice.lower() == 's':
-        adjust_settings()
+        show_settings_panel()
     else:
         print(translations[current_language]['invalid_operation'])
     show_main_menu()
+
+def show_settings_panel():
+    print(translations[current_language]['settings_panel'])
+    print(translations[current_language]['language_preference'])
+    choice = input(translations[current_language]['enter_choice'])
+    if choice == '1':
+        adjust_settings()
+    else:
+        print("Invalid choice.")
+
+
 def main():
     global current_language
     # 尝试加载之前保存的语言偏好
