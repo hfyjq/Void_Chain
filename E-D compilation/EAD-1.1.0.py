@@ -127,7 +127,7 @@ def decrypt_file(input_file, output_file, key_file_path):
         print("Decryption failed: Invalid access code or corrupted file.")
 
 def show_terms_window():
-    # 创建条款窗口
+    # 条款窗口
     terms_window = tk.Toplevel()
     terms_window.title(translations[current_language]['terms_and_conditions'])
     terms_window.geometry("500x400")
@@ -141,11 +141,11 @@ def show_terms_window():
     position_down = int(terms_window.winfo_screenheight() / 2 - window_height / 2)
     terms_window.geometry(f"+{position_right}+{position_down}")
 
-    # 创建滚动条
+    # 滚动条
     scrollbar = tk.Scrollbar(terms_window)
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
-    # 创建文本框
+    # 文本框
     terms_text = tk.Text(terms_window, wrap=tk.WORD, yscrollcommand=scrollbar.set)
     terms_text.pack()
 
@@ -224,7 +224,7 @@ def select_key_file():
     return file_path
 
 def show_main_menu():
-    # 提示用户选择操作
+    # 提示用户选择
     operation_choice = input(translations[current_language]['choose_operation'])
     if operation_choice.lower() == 'e':
         input_file = select_file()
@@ -250,14 +250,14 @@ def show_main_menu():
             print(translations[current_language]['no_file_selected'])
             return
         key_file = select_key_file()
-        if not key_file:  # 检查是否选择了密钥文件
+        if not key_file:  # 检查是否选择密钥文件
             print(translations[current_language]['no_key_file_selected'])
             return
         output_file = select_output_file()  # 让用户选择输出文件的位置和名称
-        if not output_file:  # 检查是否选择了输出文件
+        if not output_file:  # 检查是否选择输出文件
             print(translations[current_language]['no_output_file_selected'])
             return
-        decrypt_file(input_file, output_file, key_file)  # 正确调用decrypt_file函数
+        decrypt_file(input_file, output_file, key_file) 
         print(translations[current_language]['decryption_successful'])
     elif operation_choice.lower() == 's':
         show_settings_panel()
@@ -299,7 +299,7 @@ def main():
     if not os.path.isfile("terms_accepted.txt"):
         show_terms_window()
     else:
-        # 条款已接受，显示主菜单
+        # 条款已接受
         show_main_menu()
 
 if __name__ == "__main__":
